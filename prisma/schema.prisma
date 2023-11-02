@@ -52,11 +52,11 @@ model Info {
   name      String @unique @db.VarChar(30)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  detail    Deatil[] @relation("InfoToDetail")
+  detail    Datil[] @relation("InfoToDetail")
 
 }
 
-model Deatil {
+model Datil {
   idDetail    String @unique @id @default(cuid())
   infoId      String @db.VarChar(45)
   nameDetail  String @db.VarChar(50) 
