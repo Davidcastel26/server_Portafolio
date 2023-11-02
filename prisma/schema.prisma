@@ -13,25 +13,73 @@ datasource db {
 model User {
   idUser    String @unique @id @default(uuid())
   userName  String @unique @db.VarChar(25)
-  name      String @unique @db.VarChar(10)
-  lastName  String? @unique @db.VarChar(10)
   email     String @unique @db.VarChar(45)
+  name      String @db.VarChar(10)
+  lastName  String? @unique @db.VarChar(10)
   mainDesc  String @db.VarChar(200)
-  tagsId    TagsByUser[] @relation("UserToTag")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tags      TagsByUser[] @relation("UserToTag")
+  about     About[] @relation("UserToAbout")
   // @@map("users")
-}
-
-model About {
-  idAbout    String @unique @id @default(cuid())
-  aboutDesc  String @db.VarChar(255)
-  email      String @unique
-
-  @@map("about")
 }
 
 model TagsByUser {
   idTag   String @unique @id @default(uuid())
-  userId  String @db.VarChar(20)
+  userId  String @db.VarChar(45)
   tagName String @db.VarChar(20)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   user    User @relation("UserToTag", fields: [userId], references: [idUser])
+
+  @@index([userId])
+}
+
+model About {
+  idAbout    String @unique @id @default(cuid())
+  userId     String @db.VarChar(45)
+  aboutDesc  String @db.VarChar(255)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User @relation("UserToAbout", fields: [userId], references: [idUser])
+  
+  @@map("about")
+  @@index([userId])
+}
+
+model Info {
+  idInfo    String @unique @id @default(cuid())
+  name      String @unique @db.VarChar(30)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  detail    Deatil[] @relation("InfoToDetail")
+
+}
+
+model Deatil {
+  idDetail    String @unique @id @default(cuid())
+  infoId      String @db.VarChar(45)
+  nameDetail  String @db.VarChar(50) 
+  url         String? @db.VarChar(250)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  info        Info @relation("InfoToDetail", fields: [infoId], references: [idInfo])
+
+  @@index([infoId])
+}
+
+model Project {
+  idProjects   String @unique @id @default(uuid())
+  projectName  String @unique @db.VarChar(100)
+  urlWeb       String @db.VarChar(250)
+  urlGit       String @db.VarChar(250)
+  desc         String @db.VarChar(500)
+  tag          ProjectTags[] @relation("TagToProject")
+}
+
+model ProjectTags {
+  idTags      String @unique @id @default(cuid())
+  projectId   String @db.VarChar(45)
+  tagName     String @db.VarChar(20)
+  project     Project @relation("TagToProject", fields: [projectId], references: [idProjects])
 }
