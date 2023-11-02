@@ -21,7 +21,7 @@ model User {
   updatedAt DateTime @updatedAt
   tags      TagsByUser[] @relation("UserToTag")
   about     About[] @relation("UserToAbout")
-  // @@map("users")
+  projects  Project[] @relation("PorjectsToUser")
 }
 
 model TagsByUser {
@@ -70,11 +70,15 @@ model Datil {
 
 model Project {
   idProjects   String @unique @id @default(uuid())
+  userId       String @db.VarChar(45)
   projectName  String @unique @db.VarChar(100)
   urlWeb       String @db.VarChar(250)
   urlGit       String @db.VarChar(250)
   desc         String @db.VarChar(500)
   tag          ProjectTags[] @relation("TagToProject")
+  user         User @relation("PorjectsToUser", fields: [userId], references: [idUser])
+
+  @@index([userId])
 }
 
 model ProjectTags {
