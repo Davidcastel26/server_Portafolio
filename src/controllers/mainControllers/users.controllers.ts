@@ -11,11 +11,11 @@ export const getAllUsers = async (
     try {
 
         const allUsers = await prismaDb.user.findMany({
-            include:{
-                tags: true,
-                about: true,
-                projects: true
-            }
+            // include:{
+                // tags: true,
+                // about: true,
+                // projects: true
+            // }
         })
         
         return res.status(200).json(allUsers)
