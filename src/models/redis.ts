@@ -6,14 +6,17 @@ import { Socket } from 'socket.io';
 
 dotenv.config()
 
-export const redisClient = createClient();
-redisClient.connect().catch(console.error);
+export const redisClient = createClient({
+   url: process.env.UPSTASH_REDIS_REST_URL
+});
+
 export const sessionStore = new RedisStore({ client: redisClient });
 
 redisClient.on('error', (err: Error)=>{
    console.log("----- REDIS ERROR ----", err);  
 })
 
+redisClient.connect();
 
 redisClient.on('connect',(err:Error)=> {
    console.log('----- CONNECTED TO REDIS SUCCESFULLY -----');

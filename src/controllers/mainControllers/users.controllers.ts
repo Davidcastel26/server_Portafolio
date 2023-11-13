@@ -10,18 +10,21 @@ export const getAllUsers = async (
 
     try {
 
-        const allUsers = await prismaDb.user.findMany({
+        const allUsers = await prismaDb.user.findMany()
+            // {
             // include:{
                 // tags: true,
                 // about: true,
                 // projects: true
             // }
-        })
+        // })
         
         return res.status(200).json(allUsers)
 
     } catch (error) {
-        next(error)
+        return console.log(
+            res.status(401).json( next(error) )
+        )
     }
     
 }

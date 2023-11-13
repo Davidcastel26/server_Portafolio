@@ -45,7 +45,7 @@ CREATE TABLE "Info" (
 );
 
 -- CreateTable
-CREATE TABLE "Deatil" (
+CREATE TABLE "Datil" (
     "idDetail" TEXT NOT NULL,
     "infoId" VARCHAR(45) NOT NULL,
     "nameDetail" VARCHAR(50) NOT NULL,
@@ -53,12 +53,13 @@ CREATE TABLE "Deatil" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Deatil_pkey" PRIMARY KEY ("idDetail")
+    CONSTRAINT "Datil_pkey" PRIMARY KEY ("idDetail")
 );
 
 -- CreateTable
 CREATE TABLE "Project" (
     "idProjects" TEXT NOT NULL,
+    "userId" VARCHAR(45) NOT NULL,
     "projectName" VARCHAR(100) NOT NULL,
     "urlWeb" VARCHAR(250) NOT NULL,
     "urlGit" VARCHAR(250) NOT NULL,
@@ -107,16 +108,19 @@ CREATE UNIQUE INDEX "Info_idInfo_key" ON "Info"("idInfo");
 CREATE UNIQUE INDEX "Info_name_key" ON "Info"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Deatil_idDetail_key" ON "Deatil"("idDetail");
+CREATE UNIQUE INDEX "Datil_idDetail_key" ON "Datil"("idDetail");
 
 -- CreateIndex
-CREATE INDEX "Deatil_infoId_idx" ON "Deatil"("infoId");
+CREATE INDEX "Datil_infoId_idx" ON "Datil"("infoId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Project_idProjects_key" ON "Project"("idProjects");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Project_projectName_key" ON "Project"("projectName");
+
+-- CreateIndex
+CREATE INDEX "Project_userId_idx" ON "Project"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ProjectTags_idTags_key" ON "ProjectTags"("idTags");
@@ -128,7 +132,10 @@ ALTER TABLE "TagsByUser" ADD CONSTRAINT "TagsByUser_userId_fkey" FOREIGN KEY ("u
 ALTER TABLE "about" ADD CONSTRAINT "about_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("idUser") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Deatil" ADD CONSTRAINT "Deatil_infoId_fkey" FOREIGN KEY ("infoId") REFERENCES "Info"("idInfo") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Datil" ADD CONSTRAINT "Datil_infoId_fkey" FOREIGN KEY ("infoId") REFERENCES "Info"("idInfo") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Project" ADD CONSTRAINT "Project_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("idUser") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProjectTags" ADD CONSTRAINT "ProjectTags_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("idProjects") ON DELETE RESTRICT ON UPDATE CASCADE;

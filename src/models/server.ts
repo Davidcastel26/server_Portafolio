@@ -15,6 +15,7 @@ dotenv.config();
 
 const port = process.env.PORT || 8041;
 const app: Express = express();
+
 export const server = require("http").createServer(app);
 const io = new Server( server, { cors: corsConfig} );
 
@@ -30,7 +31,9 @@ app.use('/api-docs',
     swaggerUi.serve,
     swaggerUi.setup(spacs) 
 )
-io.use(wrap(sessionMiddleware))
+// io.use(wrap)
+// io.use(wrap(sessionMiddleware))
+// io.use( Auth)
 
 app.listen(port, () => {
     console.log(`----- RUNING ON PORT ${port} -----`);
