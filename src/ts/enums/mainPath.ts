@@ -6,4 +6,4 @@ export enum Paths {
     tagsProject = '/apiportfolio/tagsproject',
     projects = '/apiportfolio/projects',
     users = '/apiportfolio/users',
-}
+} 

@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Application, Express } from 'express';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -14,7 +14,7 @@ import { sessionMiddleware, wrap } from './redis';
 dotenv.config();
 
 const port = process.env.PORT || 8041;
-const app: Express = express();
+const app: Application = express();
 
 export const server = require("http").createServer(app);
 const io = new Server( server, { cors: corsConfig} );
